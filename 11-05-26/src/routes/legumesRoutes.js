@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { fruitService } from "../services/fruitservice.js";
+import { legumesService } from "../services/legumeservice.js";
 import { validateFruit } from "../middlewares/validatefruits.js";
 import { AppError } from "../utils/appError.js";
 import { successResponse } from "../utils/response.js"
@@ -9,12 +9,10 @@ const router = Router();
 
 router.get("/", async (req, res, next) => {
 try {
-        const fruits = await fruitService.getAll()
-        console.log(fruits);
+        const legumes = await legumesService.getAll()
+        console.log(legumes);
         
-        console.log("cheguei aqui");
-        
-        res.json(fruits)
+        res.json(legumes)
     }
     catch(error) {
         console.log(error);
@@ -26,16 +24,16 @@ router.get("/:id", validateFruit.id, async (req, res, next) => {
     try {
         const { id } = req.params;
 
-        const fruit = await fruitService.getById(id);
+        const legumes = await legumesService.getById(id);
 
-        if(!fruit){
-            throw new AppError("fruta não encontrada", 404);
+        if(!legumes){
+            throw new AppError("Legumes não encontrados", 404);
         }
         return successResponse(
             res,
             200,
-            "fruta encontrada com sucesso",
-            fruit
+            "Legume encontrado com sucesso",
+            legumes
         );
     }
     catch (error){
@@ -126,4 +124,4 @@ router.put("/:id", validateFruit.id, validateFruit.put, async(req, res, next) =>
         }
     });
 
-    export { router as fruitRoutes };
+    export { router as legumesRoutes };

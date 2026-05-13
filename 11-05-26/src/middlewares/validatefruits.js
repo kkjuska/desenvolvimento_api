@@ -7,9 +7,6 @@ const validateFruit = {
         if(!id) {
             return next(new AppError("ID deve ser um numero inteiro válido", 400));   
         }
-        if(!/^\d+$/.test(id)) {
-            return next(new AppError("ID deve ser um numero inteiro válido", 400));
-        }
 
         next();
     },
