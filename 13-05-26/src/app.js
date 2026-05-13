@@ -1,5 +1,5 @@
 import express from "express";
-import { legumesRoutes } from "./routes/legumesRoutes.js";
+import { fruitsRoutes } from "./routes/fruitsRoutes.js";
 import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
     });
 });
 
-app.use("/leg", legumesRoutes);
+app.use("/fruits", fruitsRoutes);
 
 app.use(notFoundHandler);
 

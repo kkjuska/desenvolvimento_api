@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { legumesService } from "../services/legumeservice.js";
+import { FruitsService } from "../services/fruitsService.js";
 import { validateFruit } from "../middlewares/validatefruits.js";
 import { AppError } from "../utils/appError.js";
 import { successResponse } from "../utils/response.js"
@@ -9,10 +9,10 @@ const router = Router();
 
 router.get("/", async (req, res, next) => {
 try {
-        const legumes = await legumesService.getAll()
-        console.log(legumes);
+        const fruits = await FruitsService.getAll()
+        console.log(fruits);
         
-        res.json(legumes)
+        res.json(fruits)
     }
     catch(error) {
         console.log(error);
@@ -20,21 +20,21 @@ try {
     }
 });
 
-router.get("/:id", validateFruit.id, async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
 
-        const legumes = await legumesService.getById(id);
+        const fruits = await FruitsService.getById(id);
 
-        if(!legumes){
-            throw new AppError("Legumes não encontrados", 404);
+        if(!fruits){
+            throw new AppError("fruits não encontrados", 404);
         }
-        return successResponse(
-            res,
-            200,
-            "Legume encontrado com sucesso",
-            legumes
-        );
+        // return successResponse(
+        //     res,
+        //     200,
+        //     "Legume encontrado com sucesso",
+        //     legumes
+        // );
     }
     catch (error){
         next(error)
@@ -43,9 +43,9 @@ router.get("/:id", validateFruit.id, async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
     const data = req.body
-    const newLegume = await legumesService.create(data);
+    const newfruit = await FruitsService.create(data);
 
-    res.json(newLegume)
+    res.json(newfruit)
         // return successResponse(
         //     res,
         //     201,
@@ -61,10 +61,10 @@ router.patch("/:id", async(req, res, next) => {
 
         console.log(data);
         
-        const updateLegumes = await legumesService.updatePatch(id, data);
-        console.log(updateLegumes);
+        const updatefruits = await FruitsService.updatePatch(id, data);
+        console.log(updatefruits);
         
-        res.json(updateLegumes)
+        res.json(updatefruits)
 
         // return successResponse(
         //     res,
@@ -83,10 +83,10 @@ router.put("/:id",  async(req, res, next) => {
         const { id } = req.params;
         const data = req.body
 
-        const updatedLegumes = await legumesService.updatePut( id, data );
-        console.log(updatedLegumes);
+        const updatedfruits = await FruitsService.updatePut( id, data );
+        console.log(updatedfruits);
 
-        res.json(updatedLegumes)
+        res.json(updatedfruits)
 
         // return successResponse(
         //     res,
@@ -104,7 +104,7 @@ router.put("/:id",  async(req, res, next) => {
         try{
             const { id } = req.params;
 
-            const deleted = await legumesService.delete(id);
+            const deleted = await FruitsService.delete(id);
 
             // return successResponse(
             //     res,
@@ -117,4 +117,4 @@ router.put("/:id",  async(req, res, next) => {
         }
     });
 
-    export { router as legumesRoutes };
+    export { router as fruitsRoutes };
