@@ -41,83 +41,76 @@ router.get("/:id", validateFruit.id, async (req, res, next) => {
     }
 });
 
-router.post("/", validateFruit.post, async (req, res, next) => {
-    try{
-        const newFruit = await fruitService.create(req.body);
+router.post("/", async (req, res, next) => {
+    const data = req.body
+    const newLegume = await legumesService.create(data);
 
-        return successResponse(
-            res,
-            201,
-            "fruta criada com sucesso",
-            newFruit
-        )
-    }
-    catch(error) {
-        next(error);
-    }
+    res.json(newLegume)
+        // return successResponse(
+        //     res,
+        //     201,
+        //     "fruta criada com sucesso",
+        //     newFruit
+        // )
 });
 
-router.patch("/:id", validateFruit.id, validateFruit.patch, async(req, res, next) => {
+router.patch("/:id", async(req, res, next) => {
     try {
         const { id } = req.params;
+        const data = req.body
 
-        const updateFruit = await fruitService.updatePatch(id, req.body);
+        console.log(data);
+        
+        const updateLegumes = await legumesService.updatePatch(id, data);
+        console.log(updateLegumes);
+        
+        res.json(updateLegumes)
 
-        if(!updateFruit){
-            throw new AppError("fruta não encontrada", 404);
-        }
-
-        return successResponse(
-            res,
-            200,
-            "Fruta atualizada com sucesso",
-            updateFruit
-        );
+        // return successResponse(
+        //     res,
+        //     200,
+        //     "Fruta atualizada com sucesso",
+        //     updateFruit
+        // );
     }
     catch(error){
         next(error);
     }
 });
 
-router.put("/:id", validateFruit.id, validateFruit.put, async(req, res, next) => {
+router.put("/:id",  async(req, res, next) => {
     try{
         const { id } = req.params;
+        const data = req.body
 
-        const updatedfruit = await fruitService.updatePut(
-            id, req.body
-        );
-        
-        if (!updatedfruit) {
-            throw new AppError("fruta não encontrada", 404);
-        }
+        const updatedLegumes = await legumesService.updatePut( id, data );
+        console.log(updatedLegumes);
 
-        return successResponse(
-            res,
-            200,
-            "Fruta substituida com sucesso",
-            updatedfruit
-        );
+        res.json(updatedLegumes)
+
+        // return successResponse(
+        //     res,
+        //     200,
+        //     "Fruta substituida com sucesso",
+        //     updatedfruit
+        // );
         }
         catch(error){
             next(error);
         }
     });
 
-    router.delete("/:id", validateFruit.id, async(req, res, next) => {
+    router.delete("/:id", async(req, res, next) => {
         try{
             const { id } = req.params;
 
-            const deleted = await fruitService.delete(id);
+            const deleted = await legumesService.delete(id);
 
-            if (!deleted){
-                throw new AppError("fruta não encontrada", 404);
-            }
-
-            return successResponse(
-                res,
-                200,
-                "fruta deletada com sucesso"
-            )
+            // return successResponse(
+            //     res,
+            //     200,
+            //     "fruta deletada com sucesso"
+            // )
         }
         catch(error){
             next(error)
