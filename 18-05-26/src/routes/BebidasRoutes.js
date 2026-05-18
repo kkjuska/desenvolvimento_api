@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { legumesService } from "../services/legumeservice.js";
+import { bebidasService } from "../services/bebidaservice.js";
 import { validateFruit } from "../middlewares/validatefruits.js";
 import { AppError } from "../utils/appError.js";
 import { successResponse } from "../utils/response.js"
@@ -9,10 +9,10 @@ const router = Router();
 
 router.get("/", async (req, res, next) => {
 try {
-        const legumes = await legumesService.getAll()
-        console.log(legumes);
+        const bebidas = await bebidasService.getAll()
+        console.log(bebidas);
         
-        res.json(legumes)
+        res.json(bebidas)
     }
     catch(error) {
         console.log(error);
@@ -20,21 +20,22 @@ try {
     }
 });
 
-router.get("/:id", validateFruit.id, async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
 
-        const legumes = await legumesService.getById(id);
+        const bebidas = await bebidasService.getById(id);
+        console.log(bebidas)
 
-        if(!legumes){
-            throw new AppError("Legumes não encontrados", 404);
+        res.json(bebidas)
+
+        if(!bebidas){
+            throw new AppError("bebidas não encontrados", 404);
         }
-        return successResponse(
-            res,
-            200,
-            "Legume encontrado com sucesso",
-            legumes
-        );
+        // return successResponse(
+        //     res,
+        //     200
+        // );
     }
     catch (error){
         next(error)
@@ -43,9 +44,9 @@ router.get("/:id", validateFruit.id, async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
     const data = req.body
-    const newLegume = await legumesService.create(data);
+    const newBebida = await bebidasService.create(data);
 
-    res.json(newLegume)
+    res.json(newBebida)
         // return successResponse(
         //     res,
         //     201,
@@ -61,10 +62,10 @@ router.patch("/:id", async(req, res, next) => {
 
         console.log(data);
         
-        const updateLegumes = await legumesService.updatePatch(id, data);
-        console.log(updateLegumes);
+        const updateBebidas = await bebidasService.updatePatch(id, data);
+        console.log(updateBebidas);
         
-        res.json(updateLegumes)
+        res.json(updateBebidas)
 
         // return successResponse(
         //     res,
@@ -83,10 +84,10 @@ router.put("/:id",  async(req, res, next) => {
         const { id } = req.params;
         const data = req.body
 
-        const updatedLegumes = await legumesService.updatePut( id, data );
-        console.log(updatedLegumes);
+        const updatedBebidas = await bebidasService.updatePut( id, data );
+        console.log(updatedBebidas);
 
-        res.json(updatedLegumes)
+        res.json(updatedBebidas)
 
         // return successResponse(
         //     res,
@@ -104,8 +105,8 @@ router.put("/:id",  async(req, res, next) => {
         try{
             const { id } = req.params;
 
-            const deleted = await legumesService.delete(id);
-
+            const deleted = await bebidasService.delete(id);
+            res.json(deleted)
             // return successResponse(
             //     res,
             //     200,
@@ -117,4 +118,4 @@ router.put("/:id",  async(req, res, next) => {
         }
     });
 
-    export { router as legumesRoutes };
+    export { router as BebidasRoutes };
